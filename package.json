@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "autoprefixer": "^10.3.3",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.8"
+  },
+  "scripts": {
+    "build-css:tailwinds": "tailwindcss build tailwindy.css -o css/tailwindy.css"
+  },
+  "dependencies": {
+    "vue": "^2.6.14"
+  }
+}

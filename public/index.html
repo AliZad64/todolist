@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ali_Zayar_Task7</title>
+    <link rel="stylesheet" href="../css/tailwindy.css" />
+  </head>
+  <body class="bg-gray-200"">
+    <div id="app" class="container mx-auto py-4">
+        <div class="flex items-center justify-center px-5 py-3 pr-96 space-x-6 ">
+            <a class="p-5 rounded-md" href="" @click.prevent = "section = '1'" :class="section == '1' ? 'bg-blue-500' : ''" >section1</a>
+            <a section2  class="p-5 rounded-md" href="" @click.prevent = "section = '2'" :class="section == '2' ? 'bg-blue-500' : ''">section2</a>
+        </div>
+        <div v-if = "section == 1" >
+    <div class=" flex items-center justify-center">
+        <input @keyup.enter="pushing()" type="text" placeholder="enter task" v-model.trim="task" class=" py-3 px-5 pr-80 border border-purple-600 rounded-md hover:border-purple-600 outline-none " />
+      </div>
+      <div v-if="current.length != 0" class="mt-20 flex flex-col gap-3 lg:mx-28  ">
+        <div class="flex justify-start">
+        <h1 class="font-bold text-lg mr-2">Current Tasks</h1>
+        </div>
+        <br />
+        <div v-for="(one , index) in current " class=" bg-white shadow-lg py-3 px-5  border border-green-600 rounded-md hover:border-green-600 outline-none flex justify-between items-center ">
+            <div>
+          <span class="text-md">
+            {{one}}
+            </span> 
+        </div>
+        <div class="flex space-x-4">
+            <button class="text-md p-3 rounded-md text-red-500 hover:bg-red-500 hover:text-white" @click="deleting(current, index)">delete</button>
+            <button class="text-md p-3 rounded-md text-blue-500 hover:bg-blue-500 hover:text-white" @click="converting(later, current ,index)">Later</button>
+          </span>
+        </div>
+        </div>
+        </div>
+        <!--later page-->
+        <div v-if="later.length != 0" class="mt-20 flex flex-col gap-3 lg:mx-28  ">
+            <div class="flex justify-start">
+                <h1 class="font-bold text-lg mr-2">Later Tasks</h1>
+                </div>
+                <div class=" shadow-lg py-3 px-5 border border-green-600 rounded-md hover:border-green-600 outline-none flex justify-between items-center bg-white " v-for="(one , index) in later" >
+                <div>
+          <span class="text-md">
+            {{one}}
+            </span>
+            </div>
+            <div class="flex space-x-4">
+             <button @click="deleting(later, index) " class="text-md p-3 rounded-md text-red-500 hover:bg-red-500 hover:text-white"  >Delete</button>
+            <button @click="converting(current , later ,index)" class="text-md p-3 rounded-md text-green-500 hover:bg-green-500 hover:text-white" >Current</button>
+        </div>
+         
+        </div>
+    </div>
+      </div>
+
+      <div v-if = "section == 2" >
+        <div class=" flex items-center justify-center space-x-1">
+            <input @keyup.enter="newOrder()" type="text" placeholder="enter order" v-model.trim="order_name" class=" py-3 px-5 pr-80 border border-purple-600 rounded-md hover:border-purple-600 outline-none " />
+        <div>
+            <button class="px-4 bg-purple-600 text-white py-3 rounded-md" @click = "++order_amount">+</button>
+            <input class="w-10 h-10 text-center " v-model = "order_amount" @keypress.prevent>
+            <button class="px-4 bg-purple-600 text-white py-3 rounded-md" @click = "if (order_amount> 1) {--order_amount }">-</button>
+        </div>
+        </div>
+        <div v-if = "orders != 0" class="mt-20 flex flex-col gap-3 lg:mx-28 ">
+            <div class="flex justify-between text-purple-700 border-b border-purple-700 py-3 px-5 font-bold">
+                <h1>Item cart</h1>
+                <h1>Item qty</h1>
+            </div>
+            <div v-for="order in orders " class="  py-3 px-5  border-b border-purple-700 rounded-md  outline-none flex justify-between items-center ">
+                <h1>{{order.order_name}}</h1>
+                <h1>{{order.order_amount}}</h1>
+            </div>
+
+        </div>
+
+      </div>
+      </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          section: 1,
+          task: "",
+          current: [],
+          later: [],
+          orders: [],
+          order_amount: 1,
+          order_name: '',
+          section: '1',
+        },
+        methods: {
+          pushing() {
+            this.current.push(this.task);
+            this.task = "";
+          },
+          deleting(array, index) {
+            array.splice(index, 1);
+          },
+          converting(arrayTake, arrayConvert, index) {
+            arrayTake.push(arrayConvert[index]);
+            arrayConvert.splice(index, 1);
+          },
+          newOrder(){
+            let order = {
+                order_name: this.order_name,
+                order_amount: this.order_amount,
+                }
+            this.orders.push(order);
+            this.order_name = '';
+            this.order_amount = 1;
+          }
+        },
+      });
+    </script>
+  </body>
+</html>
